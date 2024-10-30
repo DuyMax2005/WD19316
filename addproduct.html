@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+</head>
+<body>
+    <div class="container">
+        <h1>Thêm sản phẩm</h1>
+        <form class="form" id="productform">
+            <input type="text" class="form-control" id="name" name="name" placeholder="Tên sản phẩm">
+            <input type="text" class="form-control" id="publish" name="publish" placeholder="Nhà xuất bản">
+            <input type="text" class="form-control" id="year" name="year" placeholder="Năm xuất bản">
+            <input type="text" class="form-control" id="price" name="price" placeholder="Giá tiền">
+            <button class="btn btn-outline-success">Thêm mới</button>
+            <button class="btn btn-outline-success"><a href="listproduct.html">Danh sách sản phẩm</a></button>            
+        </form>
+    </div>
+    <script>
+        const name = document.getElementById('name')
+        const publish = document.getElementById('publish')
+        const year = document.getElementById('year')
+        const price = document.getElementById('price')
+        const productform = document.getElementById('productform')
+
+        productform.addEventListener('submit', async (e)=>{
+            e.preventDefault()
+            const data = {
+                name: name.value,
+                publish: publish.value,
+                year: year.value,
+                price: price.value,
+            }
+            if(validate(name.value,year.value,price.value)){
+            try {
+                const responce = await fetch(`http://localhost:3000/products`,{
+                    method: "POST",
+                    headers: {"Content-Type":"Application/json"},
+                    body: JSON.stringify(data)
+                })
+                if(responce.ok) alert("Thêm mới thành công")
+                else alert("Thêm mới thất bại")
+            } catch (error) {
+                alert("Thêm mới thất bại")
+            }}
+            else{
+                alert(`
+                Tên không được bỏ trống
+                Năm xuất bản < 2025
+                Giá tiền Là số không âm`)
+            }
+        })
+        const validate = (name,year,price)=>{
+            return name.trim().length>0 && !isNaN(year) && year.length>0 && year<2025 && !isNaN(price) && price.length>0 && price>-1
+        }
+    </script>
+</body>
+</html>

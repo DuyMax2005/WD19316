@@ -1,0 +1,19 @@
+{
+  "products": [
+    {
+      "name": "Nguyễn Đức Duy",
+      "publish": "Duy Max",
+      "year": "2005",
+      "price": "1000000",
+      "id": 1
+    }
+  ],
+  "users": [
+    {
+      "email": "duytuyetdinh@gmail.com",
+      "password": "$2a$10$31L8yuYKfT0V9jxvVDH4nu1zZ4Id6rkY9Qu6mUeytPsncZzoMIcbK",
+      "name": "Nguyễn Đức Duy",
+      "id": 1
+    }
+  ]
+}

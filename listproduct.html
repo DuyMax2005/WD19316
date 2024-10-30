@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+</head>
+<body>
+    <div class="container">
+        <h1>Danh sách sản phẩm</h1>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>STT</th>
+                    <th>Tên sản phẩm</th>
+                    <th>Nhà xuất bản</th>
+                    <th>Năm xuất bản</th>
+                    <th>Giá tiền</th>
+                    <th>Thao tác</th>
+                </tr>
+            </thead>
+            <tbody>
+
+            </tbody>
+        </table>
+        <button class="btn btn-outline-success"><a href="addproduct.html">Thêm sản phẩm</a></button>
+    </div>
+    <script>
+        const getProducts = async ()=>{
+            const tbody = document.querySelector('tbody')
+            try {
+                const responce = await fetch(`http://localhost:3000/products`)
+                if(responce.ok){
+                    const products = await responce.json()
+                    products.forEach((product,index)=>{
+                        const tr = document.createElement('tr')
+                        tr.innerHTML = `
+                            <td>${index+1}</td>
+                            <td>${product.name}</td>
+                            <td>${product.publish}</td>
+                            <td>${product.year}</td>
+                            <td>${product.price}</td>
+                            <td>
+                                <a href="editproduct.html?id=${product.id}">Sửa</a>
+                                <button class="btn btn-danger" onclick="DelProduct('${product.id}')">Xoá</button>
+                            </td>
+                        `
+                        tbody.append(tr)
+                    })
+                }
+
+            } catch (error) {
+                
+            }
+        }
+        getProducts()
+        const DelProduct = async (id)=>{
+            if(confirm("Bạn có chắc muốn xoá?")){
+                try {
+                    const responce = await fetch(`http://localhost:3000/products/${id}`,{method: "DELETE"})
+                    if(responce.ok) alert("Xoá thành công")
+                    else alert("Xoá thất bại")
+                } catch (error) {
+                    alert("Xoá thất bại")
+                }
+            }
+        }
+
+    </script>
+</body>
+</html>
